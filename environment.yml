@@ -1,4 +1,4 @@
-name: phoebus-demo
+name: bmad-component-db-test
 channels:
   - conda-forge
 dependencies:
