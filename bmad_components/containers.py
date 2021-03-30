@@ -6,7 +6,7 @@ class Base(HappiItem):
     S = EntryInfo('Longitudinal position at the downstream end', optional=False, enforce=float)
     S_start = EntryInfo('Longitudinal reference position at entrance end', optional=False, enforce=float)
     
-class InstrumentalMeasurements(HappiItem):
+class InstrumentalMeasurements:
     X_GAIN_ERR = EntryInfo('Horizontal gain error', optional=False, enforce=float)
     Y_GAIN_ERR = EntryInfo('V ertical gain error', optional=False, enforce=float)
     CRUNCH = EntryInfo('Crunch angle', optional=False, enforce=float)
@@ -37,7 +37,7 @@ class ApertureLimits:
     APERTURE_TYPE = EntryInfo('What type of aperture is this', optional=False, enforce=str)
 
 
-class Bend(HappiItem):
+class Bend:
     ANGLE = EntryInfo('Design bend angle', optional=False, enforce=float)
     B_FIELD = EntryInfo('Design field strength', optional=False, enforce=float)
     DB_FIELD = EntryInfo('', optional=False, enforce=float)
@@ -56,17 +56,17 @@ class Bend(HappiItem):
     RHO = EntryInfo('Design bend radius', optional=False, enforce=float)
     
     
-class Kick(HappiItem):
+class Kick:
     HKICK = EntryInfo('Integrated horizontal field kick', optional=False, enforce=float)
     VKICK = EntryInfo('Integrated vertical field kick', optional=False, enforce=float)
     BL_HKICK = EntryInfo('Integrated horizontal field kick in meters-Tesla', optional=False, enforce=float)
     BL_VKICK = EntryInfo('Integrated vertical field kick in meters-Tesla', optional=False, enforce=float)
 
-class Length(HappiItem):
+class Length:
     L = EntryInfo('Length path of the reference particle', optional=False, enforce=float) # bend?
 
     
-class StraightLineOrientation(HappiItem):
+class StraightLineOrientation:
     #offsets, pitches, tilts 
     TILT = EntryInfo('Rotation of the element in the x,y plane', optional=False, enforce=float)
     X_PITCH = EntryInfo('Rotation about the element center s.t. exit face is diplaced in the corresponding x direction', optional=True, enforce=float)
@@ -92,7 +92,7 @@ class GirderBendExtension(GirderExtension):
     TILT_TOT = EntryInfo('Rotation of bend around the z axis including Girder orientation', optional=False, enforce=float)
 
     
-class Twiss(HappiItem):
+class Twiss:
     # Twiss elements
     Beta_A  = EntryInfo('A mode beta', optional=False, enforce=float)
     Beta_B  = EntryInfo('B mode beta', optional=False, enforce=float)
@@ -110,7 +110,7 @@ class Twiss(HappiItem):
     Etap_Z = EntryInfo('z-axis dispersion derivative', optional=False, enforce=float)
     
     
-class Floor(HappiItem):
+class Floor:
     # Global floor coords at end of element
     # reference
     Reference_X = EntryInfo('X offset from origin without misalignments',
