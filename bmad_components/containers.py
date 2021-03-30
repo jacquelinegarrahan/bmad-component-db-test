@@ -6,7 +6,7 @@ class Base(HappiItem):
     S = EntryInfo('Longitudinal position at the downstream end', optional=False, enforce=float)
     S_start = EntryInfo('Longitudinal reference position at entrance end', optional=False, enforce=float)
     
-class InstrumentalMeasurements:
+class InstrumentalMeasurements(HappiItem):
     X_GAIN_ERR = EntryInfo('Horizontal gain error', optional=False, enforce=float)
     Y_GAIN_ERR = EntryInfo('V ertical gain error', optional=False, enforce=float)
     CRUNCH = EntryInfo('Crunch angle', optional=False, enforce=float)
@@ -26,7 +26,7 @@ class InstrumentalMeasurements:
     OSC_AMPLITUDE = EntryInfo('Oscillation amplitude', optional=False, enforce=float)
     
     
-class ApertureLimits:
+class ApertureLimits(HappiItem):
     X1_LIMIT = EntryInfo('Horizontal, negative side, aperture limit', optional=False, enforce=float)
     X2_LIMIT = EntryInfo('Horizontal, positive side, aperture limit', optional=False, enforce=float)
     Y1_LIMIT = EntryInfo('Vertical, negative side, aperture limit', optional=False, enforce=float)
@@ -37,7 +37,7 @@ class ApertureLimits:
     APERTURE_TYPE = EntryInfo('What type of aperture is this', optional=False, enforce=str)
 
 
-class Bend:
+class Bend(HappiItem):
     ANGLE = EntryInfo('Design bend angle', optional=False, enforce=float)
     B_FIELD = EntryInfo('Design field strength', optional=False, enforce=float)
     DB_FIELD = EntryInfo('', optional=False, enforce=float)
@@ -47,8 +47,8 @@ class Bend:
     E2 = EntryInfo('Exit pole face angle', optional=False, enforce=float)
     G = EntryInfo('Design bend strength', optional=False, enforce=float)
     DG = EntryInfo('Difference between actual and design bend strength', optional=False, enforce=float)
-    H1 = EntryInfo('Entrance face curvature', optional=False, enforce=float)
-    H2 = EntryInfo('Exit face curvature', optional=False, enforce=float)
+    #H1 = EntryInfo('Entrance face curvature', optional=False, enforce=float)
+    #H2 = EntryInfo('Exit face curvature', optional=False, enforce=float)
     K1 = EntryInfo('Quadrupole strength', optional=False, enforce=float)
     K2 = EntryInfo('Sextupole strength', optional=False, enforce=float)
     L_CHORD = EntryInfo('Chord length', optional=False, enforce=float)
@@ -56,17 +56,17 @@ class Bend:
     RHO = EntryInfo('Design bend radius', optional=False, enforce=float)
     
     
-class Kick:
+class Kick(HappiItem):
     HKICK = EntryInfo('Integrated horizontal field kick', optional=False, enforce=float)
     VKICK = EntryInfo('Integrated vertical field kick', optional=False, enforce=float)
     BL_HKICK = EntryInfo('Integrated horizontal field kick in meters-Tesla', optional=False, enforce=float)
     BL_VKICK = EntryInfo('Integrated vertical field kick in meters-Tesla', optional=False, enforce=float)
 
-class Length:
+class Length(HappiItem):
     L = EntryInfo('Length path of the reference particle', optional=False, enforce=float) # bend?
 
     
-class StraightLineOrientation:
+class StraightLineOrientation(HappiItem):
     #offsets, pitches, tilts 
     TILT = EntryInfo('Rotation of the element in the x,y plane', optional=False, enforce=float)
     X_PITCH = EntryInfo('Rotation about the element center s.t. exit face is diplaced in the corresponding x direction', optional=True, enforce=float)
@@ -92,7 +92,7 @@ class GirderBendExtension(GirderExtension):
     TILT_TOT = EntryInfo('Rotation of bend around the z axis including Girder orientation', optional=False, enforce=float)
 
     
-class Twiss:
+class Twiss(HappiItem):
     # Twiss elements
     Beta_A  = EntryInfo('A mode beta', optional=False, enforce=float)
     Beta_B  = EntryInfo('B mode beta', optional=False, enforce=float)
@@ -110,7 +110,7 @@ class Twiss:
     Etap_Z = EntryInfo('z-axis dispersion derivative', optional=False, enforce=float)
     
     
-class Floor:
+class Floor(HappiItem):
     # Global floor coords at end of element
     # reference
     Reference_X = EntryInfo('X offset from origin without misalignments',
@@ -157,51 +157,51 @@ class Floor:
     
 class Quadrupole(Base, ApertureLimits, Kick, StraightLineOrientation, Twiss, Length, Floor):
     B1_GRADIENT = EntryInfo('Field strength', optional=False, enforce=float)
-    K1 = EntryInfo('Quadrupole field strength', optional=False, enforce=float)
+    #K1 = EntryInfo('Quadrupole field strength', optional=False, enforce=float)
     FQ1 = EntryInfo('Soft edge fringe parameter', optional=False, enforce=float)
     FQ2 = EntryInfo('Soft edge fringe parameter', optional=False, enforce=float)
     
     
-class Monitor(Base, Length, ApertureLimits, Kick, InstrumentalMeasurements, StraightLineOrientation, Twiss, Floor):
+class Monitor(Base, Length, ApertureLimits, Kick, InstrumentalMeasurements, StraightLineOrientation, Floor):
     pass
 
 
-class Drift(Base, Length, ApertureLimits, StraightLineOrientation, Twiss, Floor):
+class Drift(Base, Length, ApertureLimits, StraightLineOrientation, Floor):
     pass
 
 
-class HKicker(Base, Twiss, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
+class HKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
     KICK = EntryInfo('Integrated kick', optional=True, enforce=float)
 
 
-class VKicker(Base, Twiss, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
+class VKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
     KICK = EntryInfo('Integrated kick', optional=True, enforce=float)
 
 
 
-class RBend(Base, Twiss, ApertureLimits, Kick, Bend, BendOrientation, Floor):
+class RBend(Base, ApertureLimits, Kick, Bend, BendOrientation, Floor):
     L_ARC = EntryInfo('Arc length', optional=False, enforce=str) # r bends only
     L = EntryInfo('Chord length of bend', optional=False, enforce=float)
 
     
-class SBend(Base, Twiss, ApertureLimits, Kick, Bend, BendOrientation, Floor):
+class SBend(Base, ApertureLimits, Kick, Bend, BendOrientation, Floor):
     L = EntryInfo('Length of bend', optional=False, enforce=float)
     
     
-class Wiggler(Base, Twiss, Length, StraightLineOrientation, Kick, ApertureLimits, Floor):
+class Wiggler(Base, Length, StraightLineOrientation, Kick, ApertureLimits, Floor):
     B_MAX = EntryInfo('Maximum magnetic field on the wiggler centerline', optional=False, enforce=float)
     L_PERIOD = EntryInfo('Length over which field vector returns to the same orientation', optional=False, enforce=float)
     N_PERIOD = EntryInfo('The number of periods', optional=False, enforce=float)
     POLARITY = EntryInfo('For scaling the field', optional=False, enforce=float)
-    KX = EntryInfo('Planar wiggler horizontal wave number', optional=False, enforce=float)
-    K1X = EntryInfo('Planar wiggler horizontal defocusing strength', optional=False, enforce=float)
-    k1y = EntryInfo('Planar wiggler vertical focusing strength', optional=False, enforce=float)
+    #KX = EntryInfo('Planar wiggler horizontal wave number', optional=False, enforce=float)
+    #K1X = EntryInfo('Planar wiggler horizontal defocusing strength', optional=False, enforce=float)
+    #k1y = EntryInfo('Planar wiggler vertical focusing strength', optional=False, enforce=float)
     G_MAX = EntryInfo('Maximum bending strength', optional=False, enforce=float)
     OSC_AMPLITUDE = EntryInfo('Amplitude of the particle oscillations', optional=False, enforce=float)
     
     
-class Solenoid(Base, Twiss, Length, ApertureLimits, StraightLineOrientation, Kick, Floor, GirderBendExtension):
-    KS = EntryInfo('Solenoid strength', optional=False, enforce=float)
+class Solenoid(Base, Length, ApertureLimits, StraightLineOrientation, Kick, Floor, GirderBendExtension):
+    #KS = EntryInfo('Solenoid strength', optional=False, enforce=float)
     BS_FIELD = EntryInfo('Field strength', optional=False, enforce=float)
     L_SOFT_EDGE = EntryInfo('For modeling a soft fringe', optional=False, enforce=float)
     R_SOLENOID = EntryInfo('Solenoid radius', optional=False, enforce=float)
