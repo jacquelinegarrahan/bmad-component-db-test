@@ -1,0 +1,7 @@
+name: phoebus-demo
+channels:
+  - conda-forge
+dependencies:
+  - python =3.8
+  - happi
+  - jupyterlab
