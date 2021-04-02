@@ -1,5 +1,4 @@
 from happi.item import HappiItem, EntryInfo
-from happi import Client
 import re
 
 class Base(HappiItem):
@@ -155,7 +154,7 @@ class Floor(HappiItem):
                          optional=False, enforce=float)
     
     
-class Quadrupole(Base, ApertureLimits, Kick, StraightLineOrientation, Twiss, Length, Floor):
+class Quadrupole(Base, Kick, ApertureLimits, StraightLineOrientation, Twiss, Length, Floor):
     B1_GRADIENT = EntryInfo('Field strength', optional=False, enforce=float)
     #K1 = EntryInfo('Quadrupole field strength', optional=False, enforce=float)
     FQ1 = EntryInfo('Soft edge fringe parameter', optional=False, enforce=float)
@@ -176,7 +175,6 @@ class HKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor
 
 class VKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
     KICK = EntryInfo('Integrated kick', optional=True, enforce=float)
-
 
 
 class RBend(Base, ApertureLimits, Kick, Bend, BendOrientation, Floor):
