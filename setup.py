@@ -1,9 +1,7 @@
 from setuptools import find_packages, setup
 
-import versioneer
-
 setup(
-    name='bmad_component_db',
+    name='bmad-components-db-test',
     version=0,
     author='SLAC National Accelerator Laboratory',
     packages=find_packages(),
