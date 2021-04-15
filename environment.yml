@@ -5,3 +5,7 @@ dependencies:
   - python =3.8
   - happi
   - jupyterlab
+  - numpy
+  - pandas
+  - openpyxl
+  - matplotlib
