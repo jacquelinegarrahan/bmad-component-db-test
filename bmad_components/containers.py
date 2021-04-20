@@ -4,6 +4,9 @@ import re
 class Base(HappiItem):
     S = EntryInfo('Longitudinal position at the downstream end', optional=True, enforce=float)
     S_start = EntryInfo('Longitudinal reference position at entrance end', optional=True, enforce=float)
+    branch_line = EntryInfo('branchline', optional=True, enforce=str)
+    label = EntryInfo('device label', optional=True, enforce=str)
+    description = EntryInfo('Description', optional=True, enforce=str)
     
 class InstrumentalMeasurements(HappiItem):
     X_GAIN_ERR = EntryInfo('Horizontal gain error', optional=True, enforce=float)
@@ -156,7 +159,6 @@ class Floor(HappiItem):
     
 class Quadrupole(Base, Kick, ApertureLimits, StraightLineOrientation, Twiss, Length, Floor):
     element_type = "quadrupole"
-    marker = "1"
     B1_GRADIENT = EntryInfo('Field strength', optional=True, enforce=float)
     #K1 = EntryInfo('Quadrupole field strength', optional=True, enforce=float)
     FQ1 = EntryInfo('Soft edge fringe parameter', optional=True, enforce=float)
@@ -165,42 +167,33 @@ class Quadrupole(Base, Kick, ApertureLimits, StraightLineOrientation, Twiss, Len
     
 class Monitor(Base, Length, ApertureLimits, Kick, InstrumentalMeasurements, StraightLineOrientation, Floor):
     element_type = "monitor"
-    marker = "8"
-
 
 class Drift(Base, Length, ApertureLimits, StraightLineOrientation, Floor):
     element_type = "drift"
-    marker = "P"
-
 
 class HKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
     element_type = "hkicker"
-    marker = "v"
     KICK = EntryInfo('Integrated kick', optional=True, enforce=float)
 
 
 class VKicker(Base, Length, ApertureLimits, Kick, StraightLineOrientation, Floor):
     element_type = "vkicker"
-    marker = "^"
     KICK = EntryInfo('Integrated kick', optional=True, enforce=float)
 
 
 class RBend(Base, ApertureLimits, Kick, Bend, BendOrientation, Floor):
     element_type = "rbend"
-    marker = ">"
     L_ARC = EntryInfo('Arc length', optional=True, enforce=str) # r bends only
     L = EntryInfo('Chord length of bend', optional=True, enforce=float)
 
     
 class SBend(Base, ApertureLimits, Kick, Bend, BendOrientation, Floor):
     element_type = "sbend"
-    marker = "<"
     L = EntryInfo('Length of bend', optional=True, enforce=float)
     
     
 class Wiggler(Base, Length, StraightLineOrientation, Kick, ApertureLimits, Floor):
     element_type = "wiggler"
-    marker = "o"
     B_MAX = EntryInfo('Maximum magnetic field on the wiggler centerline', optional=True, enforce=float)
     L_PERIOD = EntryInfo('Length over which field vector returns to the same orientation', optional=True, enforce=float)
     N_PERIOD = EntryInfo('The number of periods', optional=True, enforce=float)
@@ -215,7 +208,6 @@ class Wiggler(Base, Length, StraightLineOrientation, Kick, ApertureLimits, Floor
 class Solenoid(Base, Length, ApertureLimits, StraightLineOrientation, Kick, Floor, GirderBendExtension):
     #KS = EntryInfo('Solenoid strength', optional=True, enforce=float)
     element_type = "solenoid"
-    marker = "s"
     BS_FIELD = EntryInfo('Field strength', optional=True, enforce=float)
     L_SOFT_EDGE = EntryInfo('For modeling a soft fringe', optional=True, enforce=float)
     R_SOLENOID = EntryInfo('Solenoid radius', optional=True, enforce=float)
@@ -223,7 +215,6 @@ class Solenoid(Base, Length, ApertureLimits, StraightLineOrientation, Kick, Floo
     
 class Lcavity(Base, Twiss, Length, ApertureLimits, StraightLineOrientation, Kick, Floor):
     element_type = "lcavity"
-    marker = "H"
     CAVITY_TYPE = EntryInfo('Solenoid strength', optional=True, enforce=float)
     GRADIENT =EntryInfo('Accelerating gradient', optional=True, enforce=float)
     GRADIENT_ERR = EntryInfo('Accelerating gradient error', optional=True, enforce=float)
@@ -240,15 +231,19 @@ class Lcavity(Base, Twiss, Length, ApertureLimits, StraightLineOrientation, Kick
                         
 class Instrument(Base, Length, ApertureLimits, Kick, InstrumentalMeasurements, StraightLineOrientation, Twiss, Floor):
     element_type = "instrument"
-    marker = "D"
-
                         
 class Marker(Base, Length, Twiss, ApertureLimits, StraightLineOrientation, Floor, GirderExtension):
     element_type = "marker"
-    marker = "X"
     
 
 class Multipole(Base, Length, Twiss, ApertureLimits, StraightLineOrientation, Floor):
     element_type = "multipole"
-    marker = "*"
-    
+
+class Mirror(Base, Length, ApertureLimits, StraightLineOrientation, Floor):
+    element_type = "mirror"
+
+class Ecollimator(Base, Length, ApertureLimits, StraightLineOrientation, Floor):
+    element_type = "ecollimator"
+
+class Rcollimator(Base, Length, ApertureLimits, StraightLineOrientation, Floor):
+    element_type = "rcollimator"
