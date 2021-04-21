@@ -2,10 +2,14 @@ name: bmad-component-db-test
 channels:
   - conda-forge
 dependencies:
-  - python =3.8
+  - python =3.7
   - happi
   - jupyterlab
   - numpy
   - pandas
   - openpyxl
   - matplotlib
+  - pip
+  - pip:
+    - blender_notebook
+  
